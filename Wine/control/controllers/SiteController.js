@@ -4,47 +4,27 @@ class SiteController{
 
   //get /home/
   index(req, res, next){
-    res.render('home');
+    res.render('store/home');
   }
 
   //get /about/
   about(req, res, next){
-    res.render('about');
-  }
-
-  //get /product/
-  product(req, res, next){
-    res.render('products');
-  }
-
-  //get /detail-product/
-  productDetail(req, res, next){
-    res.render('product-detail');
-  }
-
-  //get /blog/
-  blog(req, res, next){
-    res.render('blog');
-  }
-
-  //get /blog-detail/
-  blogDetail(req, res, next){
-    res.render('blog-detail');
+    res.render('store/about');
   }
 
   //get /cart/
   cart(req, res, next){
-    res.render('cart');
+    res.render('store/cart');
   }
 
   //get /checkout/
   checkout(req, res, next){
-    res.render('checkout');
+    res.render('store/checkout');
   }
 
   //get /contact/
   contact(req, res, next){
-    res.render('contact');
+    res.render('store/contact');
   }
 }
 

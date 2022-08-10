@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const verifyToken = require('./../middlewares/verifyToken');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+const User = require('./../control/models/account');
+
+
+router.get('/', verifyToken, (request, response) => {
+    User.find({username: req.account.username}).exec(function (err, users) {
+        response.send(users);
+    });
 });
 
 module.exports = router;

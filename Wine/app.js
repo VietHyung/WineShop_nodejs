@@ -4,11 +4,27 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 const handlebars = require('express-handlebars');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var flash = require('connect-flash');
+const { registerValidator } = require('./validations/auth');
 
+require("dotenv").config();
 
 var app = express();
 
 const route = require('./routes');
+const db = require('./config/db');
+
+db.connect();
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+
 
 // view engine setup
 app.engine('hbs', handlebars.engine({
@@ -23,7 +39,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
+// app.use(cookieParser());
+// app.use(express.session({ cookie: { maxAge: 60000 }}));
+// app.use(flash());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 route(app);

@@ -1,9 +1,14 @@
 var express = require('express');
 var siteRouter = require('./site');
-var usersRouter = require('./users');
+var accountRouter = require('./account');
+var authRouter = require('./auth');
+var userRouter = require('./users');
 
 function route(app){
-  app.use('/users', usersRouter);
+  app.use('/account', accountRouter);
+  app.use('/api/auth', authRouter);
+  app.use('/api/users', userRouter);
+
   app.use('/', siteRouter);
 }
 
