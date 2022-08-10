@@ -10,9 +10,9 @@ const Account = new Schema({
   firstname: {type: String, default: null},
   lastname: {type: String, default: null},
   email: String,
-  token: String,
+  phone: Number,
 },{
-  timestamp: true,
+  timestamps: true,
 });
 
 module.exports = mongoose.model('account', Account);

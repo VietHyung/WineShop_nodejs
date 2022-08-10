@@ -6,7 +6,7 @@ const User = require('./../control/models/account');
 
 
 router.get('/', verifyToken, (request, response) => {
-    User.find({username: req.account.username}).exec(function (err, users) {
+    User.find({}).exec(function (err, users) {
         response.send(users);
     });
 });

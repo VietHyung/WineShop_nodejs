@@ -7,6 +7,7 @@ const registerValidator = (data) => {
         password: Joi.string().required(),
         firstname: Joi.string().required(),
         lastname: Joi.string().required(),
+        phone: Joi.number().required(),
     })
 
     return rule.validate(data);

@@ -30,7 +30,7 @@ app.use(bodyParser.json())
 app.engine('hbs', handlebars.engine({
   extname: '.hbs',
   helpers: {
-    sum: (a,b) => a + b
+    sale: (a,b) => a * b
   }
 }));
 app.set('view engine', 'hbs');

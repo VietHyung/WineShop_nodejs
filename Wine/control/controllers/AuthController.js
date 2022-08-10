@@ -49,6 +49,7 @@ class AuthController{
           password: hashPassword,
           firstname: req.body.firstname,
           lastname: req.body.lastname,
+          phone: req.body.phone,
       });
 
       try {

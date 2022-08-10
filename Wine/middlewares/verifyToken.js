@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         //const verified =
         jwt.verify(token, process.env.TOKEN_SECRET,(err,accounts)=>{
           if(err) return res.sendStatus(403);
-          req.accounts = accounts;
+          res.send('founded');
         });
         next();
     } catch (err) {

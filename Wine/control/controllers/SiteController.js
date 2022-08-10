@@ -1,10 +1,13 @@
 
+const Product = require('../models/product.js')
 
 class SiteController{
 
   //get /home/
   index(req, res, next){
-    res.render('store/home');
+    Product.find({}).lean().exec((err, product) =>{
+      res.render('store/home',{product: product});
+    })
   }
 
   //get /about/
