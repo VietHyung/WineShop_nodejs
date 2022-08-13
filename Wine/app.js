@@ -1,3 +1,4 @@
+require("dotenv").config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,8 +9,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 const { registerValidator } = require('./validations/auth');
-
-require("dotenv").config();
 
 var app = express();
 
@@ -23,7 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json
 app.use(bodyParser.json())
-
 
 
 // view engine setup

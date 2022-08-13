@@ -1,22 +1,41 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-    //const token = req.header('auth-token');
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if(token == null) return res.sendStatus(404);
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
+    if(authHeader){
+      const token = authHeader.split(" ")[1];
+      jwt.verify(token, process.env.TOKEN_SECRET,(err,user)=>{
+        if(err) {
+          return res.status(403).json("token is not valid");
+        }
 
-    //if (!token) return res.status(401).send('You need to login to access this page');
-
-    try {
-        //const verified =
-        jwt.verify(token, process.env.TOKEN_SECRET,(err,accounts)=>{
-          if(err) return res.sendStatus(403);
-          res.send('founded');
-        });
+        req.user = user;
         next();
-    } catch (err) {
-        return res.status(400).send('Invalid Token');
+      });
+    }else{
+      return res.status(401).json("unauthenticated");
     }
 };
+
+const verifyTokenAuthor = (req, res, next) => {
+  verifyToken(req, res, () =>{
+    if(req.user.id === req.params.id || req.user.isAdmin){
+      next();
+    } else {
+      res.status(403).json("not allowed to do that(Author)");
+    }
+  });
+};
+
+const verifyTokenAdmin = (req, res, next) => {
+  verifyToken(req, res, () =>{
+    if(req.user.isAdmin == true){
+      next();
+    } else {
+      res.status(403).json("not allowed to do that(check Admin)");
+    }
+  })
+}
+
+module.exports = {verifyToken,verifyTokenAuthor,verifyTokenAdmin}

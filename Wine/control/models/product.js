@@ -5,13 +5,14 @@ mongoose.connect('mongodb://localhost:27017/wineshop');
 
 
 const Product = new Schema({
-  name: {type: String},
-  img: String,
+  name: {type: String, required: true, unique: true},
+  img: {type: String, required: true},
   desc: {type: String, default: null},
-  price: {type: Number, default: null},
-  sale: Boolean,
+  categories: {type: Array},
+  price: {type: Number, required: true},
+  sale: {type: Boolean, required: true},
 },{
-  timestamp: true,
+  timestamps: true,
 });
 
 module.exports = mongoose.model('product', Product);

@@ -19,15 +19,22 @@ class AuthController{
 
   async postLogin(req, res) {
       const user = await User.findOne({username: req.body.username});
-      if (!user) return res.status(422).send('Username or Password is not correct');
+      if (!user) return res.render('user/login', {
+        err: 'Username or Password is not correct',
+        layout: 'main2',
+      });
 
       const checkPassword = await bcrypt.compare(req.body.password, user.password);
 
-      if (!checkPassword) return res.status(422).send('Username or Password is not correct');
+      if (!checkPassword) return res.render('user/login', {
+        err: 'Username or Password is not correct',
+        layout: 'main2',
+      });
 
-      const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 * 24 });
+      const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.TOKEN_SECRET, { expiresIn: 60 * 60 });
+      //req.headers['Authorization'] = 'Bearer ' + token;
 
-      res.header('auth-token', token).redirect("/");
+      return res.status(200).json({token});
 
   }
 
@@ -38,7 +45,10 @@ class AuthController{
 
       const checkNameExist = await User.findOne({ username: req.body.username });
 
-      if (checkNameExist) return res.status(422).send('Username is exist');
+      if (checkNameExist) return res.render('user/register', {
+        err2: 'Username already exists',
+        layout: 'main2',
+      });
 
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(req.body.password, salt);
